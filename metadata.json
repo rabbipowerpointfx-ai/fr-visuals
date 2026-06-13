@@ -1,0 +1,6 @@
+{
+  "name": "FR Visuals",
+  "description": "A premium, cinematic motion design, CGI & VFX portfolio for Fazle Rabbi, featuring full-screen reels, video grids, and custom CMS controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
