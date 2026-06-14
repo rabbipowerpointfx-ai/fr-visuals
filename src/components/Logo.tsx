@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/fr-visuals-logo.png";
 
 interface LogoProps {
   className?: string;
@@ -8,29 +9,26 @@ interface LogoProps {
 
 export default function Logo({
   className = "w-10 h-10",
-  textColor = "text-[#E50000]",
   hideText = false,
 }: LogoProps) {
   return (
     <div className="flex items-center gap-3 select-none">
       
-      {/* Logo Image */}
       <div className={`flex items-center justify-center shrink-0 ${className}`}>
         <img
-          src="/src/assets/fr-visuals-logo.png"
+          src={logo}
           alt="FR Visuals Logo"
           className="w-full h-full object-contain"
         />
       </div>
 
-      {/* Text Part */}
       {!hideText && (
         <div className="flex flex-col">
-          <span className="font-display font-black tracking-tighter text-[#F0F0F0] text-xl italic uppercase leading-none">
+          <span className="font-black text-[#F0F0F0] text-xl uppercase">
             FR VISUALS<span className="text-[#E50000]">.</span>
           </span>
 
-          <p className="font-mono text-[8px] uppercase tracking-[0.25em] text-neutral-400 mt-1 leading-none">
+          <p className="text-xs uppercase tracking-widest text-neutral-400">
             MOTION STUDIO
           </p>
         </div>
