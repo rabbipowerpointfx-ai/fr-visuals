@@ -1,13 +1,7 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState, useEffect } from "react";
-import { Film, Grid, User, Mail, Sparkles, Inbox, RefreshCw, Layers } from "lucide-react";
+import { Film, Grid, User, Mail, Sparkles } from "lucide-react";
 import { getMessages } from "../data/portfolioData";
-import Logo from "./Logo";
-import Image from "./Image";
+import logo from "../assets/fr-visuals-logo.png";
 
 interface HeaderProps {
   onAdminToggle: () => void;
@@ -15,12 +9,15 @@ interface HeaderProps {
   activeSection: string;
 }
 
-export default function Header({ onAdminToggle, isAdminOpen, activeSection }: HeaderProps) {
+export default function Header({
+  onAdminToggle,
+  isAdminOpen,
+  activeSection,
+}: HeaderProps) {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Poll for message count to handle real-time contact states
   useEffect(() => {
     const checkUnread = () => {
       const msgs = getMessages();
@@ -59,7 +56,6 @@ export default function Header({ onAdminToggle, isAdminOpen, activeSection }: He
   return (
     <>
       <header
-        id="header-nav"
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
           isScrolled
             ? "py-4 bg-[#050505]/90 backdrop-blur-md border-b border-neutral-900"
@@ -67,168 +63,102 @@ export default function Header({ onAdminToggle, isAdminOpen, activeSection }: He
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          {/* Logo Brand */}
+
+          {/* LOGO */}
           <button
             onClick={() => handleNavClick("home")}
-            className="flex items-center gap-3 group cursor-pointer text-left focus:outline-none"
+            className="flex items-center gap-3 group cursor-pointer"
           >
-            <Image
-              src="/logo.png"
-              alt="FR Visuals Brand Logo"
-              width={80}
-              height={80}
-              priority
-              className="w-20 h-20 select-none scale-100 hover:scale-105 active:scale-95 transition-transform duration-300"
-              removeBackground="white"
+            <img
+              src={logo}
+              alt="FR Visuals Logo"
+              className="w-20 h-20 object-contain transition-transform duration-300 group-hover:scale-105"
             />
+
             <div className="flex flex-col">
               <span className="font-display font-black tracking-tighter text-[#F0F0F0] text-xl italic uppercase leading-none group-hover:text-[#E50000] transition-colors">
                 FR VISUALS<span className="text-[#E50000]">.</span>
               </span>
+
               <p className="font-mono text-[8px] uppercase tracking-[0.25em] text-neutral-400 mt-1 leading-none">
                 MOTION STUDIO
               </p>
             </div>
           </button>
 
-          {/* Desktop Navigation Links */}
+          {/* NAVIGATION */}
           <nav className="hidden md:flex items-center gap-8">
             <div className="flex items-center gap-1 bg-[#101010]/60 p-1 rounded-full border border-neutral-900 backdrop-blur">
               {navItems.map((item) => {
-                const IconComponent = item.icon;
+                const Icon = item.icon;
                 const isActive = activeSection === item.id;
+
                 return (
                   <button
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
-                    className={`flex items-center gap-2 px-5 py-2 rounded-full font-display font-medium text-xs tracking-widest uppercase transition-all duration-300 relative focus:outline-none ${
+                    className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs uppercase tracking-widest transition ${
                       isActive
-                        ? "text-white bg-[#E50000] shadow-[0_4px_20px_rgba(229,0,0,0.3)]"
+                        ? "bg-[#E50000] text-white"
                         : "text-neutral-400 hover:text-white"
                     }`}
                   >
-                    <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-neutral-500"}`} />
+                    <Icon className="w-3.5 h-3.5" />
                     {item.label}
                   </button>
                 );
               })}
             </div>
 
-            {/* Studio CMS Switcher */}
-            <div className="h-4 w-[1px] bg-neutral-800"></div>
+            <div className="w-px h-5 bg-neutral-800" />
 
             <button
               onClick={onAdminToggle}
-              className={`flex items-center gap-2 px-4 py-2 rounded border font-mono text-xs tracking-wider transition-all duration-300 relative focus:outline-none cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2 rounded border text-xs uppercase tracking-wider transition ${
                 isAdminOpen
-                  ? "border-[#E50000] text-[#E50000] bg-[#E50000]/10 glow-orange"
-                  : "border-neutral-800 text-neutral-300 hover:border-[#E50000] hover:text-[#E50000] hover:bg-[#E50000]/5 glow-orange"
+                  ? "border-[#E50000] text-[#E50000]"
+                  : "border-neutral-800 text-neutral-300 hover:text-[#E50000]"
               }`}
             >
-              <Sparkles className={`w-3.5 h-3.5 ${isAdminOpen ? "animate-spin" : ""}`} />
-              STUDIO CMS
+              <Sparkles className="w-3.5 h-3.5" />
+              CMS
               {unreadCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E50000] font-mono text-[9px] font-bold text-black animate-bounce">
+                <span className="ml-2 text-[10px] bg-[#E50000] text-black px-1.5 rounded-full">
                   {unreadCount}
                 </span>
               )}
             </button>
           </nav>
 
-          {/* Handheld/Mobile actions */}
-          <div className="flex items-center gap-3 md:hidden">
-            <button
-              onClick={onAdminToggle}
-              className={`p-2 rounded border transition-colors relative ${
-                isAdminOpen ? "border-[#E50000] text-[#E50000] bg-[#E50000]/10" : "border-neutral-800 text-neutral-400"
-              }`}
-              title="Studio CMS"
-            >
-              <Sparkles className="w-4 h-4" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#E50000] text-[8px] font-bold text-black font-mono">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
-
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 border border-neutral-800 rounded bg-[#101010]/80 text-white focus:outline-none"
-            >
-              <div className="w-5 h-4 flex flex-col justify-between items-center relative">
-                <span
-                  className={`w-5 h-[1.5px] bg-white rounded-full transition-transform duration-300 ${
-                    isMobileMenuOpen ? "rotate-45 translate-y-1.5" : ""
-                  }`}
-                />
-                <span
-                  className={`w-5 h-[1.5px] bg-white rounded-full transition-opacity duration-300 ${
-                    isMobileMenuOpen ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`w-5 h-[1.5px] bg-white rounded-full transition-transform duration-300 ${
-                    isMobileMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-                  }`}
-                />
-              </div>
-            </button>
-          </div>
+          {/* MOBILE MENU BUTTON */}
+          <button
+            className="md:hidden text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            ☰
+          </button>
         </div>
       </header>
 
-      {/* Handheld Menu Drawer */}
-      <div
-        className={`fixed inset-0 z-40 bg-black/95 backdrop-blur-xl transition-all duration-500 flex flex-col justify-center px-12 md:hidden ${
-          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="space-y-6 flex flex-col items-start font-display">
-          <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#E50000] mb-4">
-            — DIRECTORY NAVIGATION
-          </p>
+      {/* MOBILE MENU */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center gap-6 text-white">
           {navItems.map((item) => {
-            const IconComponent = item.icon;
-            const isActive = activeSection === item.id;
+            const Icon = item.icon;
+
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
-                className={`flex items-center gap-4 text-2xl tracking-widest font-semibold uppercase text-left transition-colors focus:outline-none ${
-                  isActive ? "text-[#E50000]" : "text-neutral-400 hover:text-white"
-                }`}
+                className="text-xl uppercase flex items-center gap-2"
               >
-                <IconComponent className={`w-6 h-6 ${isActive ? "text-[#E50000]" : "text-neutral-600"}`} />
+                <Icon />
                 {item.label}
               </button>
             );
           })}
-
-          <div className="w-full h-[1px] bg-neutral-900 my-4" />
-
-          <button
-            onClick={() => {
-              setIsMobileMenuOpen(false);
-              onAdminToggle();
-            }}
-            className="flex items-center gap-3 text-lg tracking-widest text-[#E50000] font-semibold uppercase focus:outline-none"
-          >
-            <Sparkles className="w-5 h-5 text-[#E50000]" />
-            STUDIO CMS PANEL
-            {unreadCount > 0 && (
-              <span className="px-2 py-0.5 rounded-full bg-[#E50000] text-xs text-black font-bold font-mono">
-                {unreadCount} NEW
-              </span>
-            )}
-          </button>
         </div>
-
-        <div className="absolute bottom-8 left-12 right-12 flex justify-between items-center text-neutral-600 font-mono text-[9px]">
-          <span>© FR VISUALS</span>
-          <span className="text-[#E50000]/40">ONLINE STAGE</span>
-        </div>
-      </div>
+      )}
     </>
   );
 }
