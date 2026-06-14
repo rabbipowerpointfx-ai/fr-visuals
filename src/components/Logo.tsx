@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../assets/fr-visuals-logo.png";
 
-export default function Logo({ hideText = false }) {
+export default function Logo({ hideText = false })  {
   return (
     <div className="flex items-center gap-3">
       <img
